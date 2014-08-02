@@ -6,56 +6,39 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.ForgeDirection;
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyHandler;
 import cultys.technium.TechniumMod;
 import cultys.technium.recipes.RecipeHandlerCrusher;
 
-public class TileEntityCrusher extends TileEntity implements IInventory, ISidedInventory {
+public class TileEntityCrusher extends TileEntity implements IInventory, ISidedInventory, IEnergyHandler {
 
-	//0 input
-	//1,2 output	
-	private ItemStack inventory[] = new ItemStack[3];
-
-	private boolean isActive = false;
-	private boolean isMaster = false;
-	private boolean isMultiblock = false;
-	private int masterX = 0;
-	private int masterY = 0;
-	private int masterZ = 0;
-	private byte direction; //0 north, 1 east, 2 south, 3 west
-
-	@SuppressWarnings("unused")
+	/*-------  GLOBALS -------*/
 	private static final int maxPower = 2000;
+	private static final int maxExtract = 0;
+	private static final int maxRecieve = 20;
 	private static final int ticksPerItem = 200;
-	private static final int ticksPerTextureUpdate = 10;
+	private static final int ticksPerTextureUpdate = 5;
 	private static final int textures = 3;
 	
-	public int power = 2000;
+	/*------- VARIABLES ------*/
+	private ItemStack inventory[] = new ItemStack[3]; /* 0 INPUT; 1,2 OUTPUT*/
+	private EnergyStorage storage = new EnergyStorage(maxPower, maxExtract, maxRecieve);
+
+	private boolean isActive = false;
+	private int direction;
+	
+	private int power = 2000;
 	public int progress = 0;
 	private int textureUpdateCounter = 0;
+	private int currentActiveTexture;
 	
-	private static void setMultiblock(TileEntityCrusher master, TileEntityCrusher slave) {
-		master.isMultiblock = true;		
-		master.isMaster = true;
-		slave.isMultiblock = true;
-		slave.masterX = master.xCoord;
-		slave.masterY = master.yCoord;
-		slave.masterZ = master.zCoord;
-	}
-	
-	private void checkForMultiblock (){
-		
-		TileEntity check = this.worldObj.getTileEntity(this.xCoord, this.yCoord + 1, this.zCoord);
-		
-		if (check != null && check instanceof TileEntityCrusher) {
-			TileEntityCrusher topCrusher = (TileEntityCrusher) check;
-			
-			if (!topCrusher.isMultiblock) {
-				setMultiblock(this, topCrusher);
-			}
-		}		
-	}
-	
+	/*--------- CODE ---------*/
 	private void resetCrusher() {
 		inventory[0].stackSize--;
 		if (inventory[0].stackSize <= 0) {
@@ -66,63 +49,60 @@ public class TileEntityCrusher extends TileEntity implements IInventory, ISidedI
 
 	@Override
 	public void updateEntity() {
-		if (this.isMultiblock) {
-			if (this.inventory[0] != null) {
+		if (!this.worldObj.isRemote) {
+			if (inventory[0] != null) {
 				ItemStack result = RecipeHandlerCrusher.getInstance().getCrushingResult(inventory[0]);
 				if (result != null) {
-					this.isActive = true;
+					isActive = true;
 					progress++;
 					if (this.progress >= ticksPerItem) {
 						int amount = result.stackSize;
 						if (inventory[1] == null) {
 							inventory[1] = result.copy();
-							this.resetCrusher();
-						} else if (result.getItem() == inventory[1].getItem() && inventory[1].stackSize + amount <= this.getInventoryStackLimit()) {
+							resetCrusher();
+						} else if (result.getItem() == inventory[1].getItem() && inventory[1].stackSize + amount <= getInventoryStackLimit()) {
 							inventory[1].stackSize = inventory[1].stackSize + amount;
-							this.resetCrusher();
+							resetCrusher();
 						} else if (inventory[2] == null) {
 							inventory[2] = result.copy();
-							this.resetCrusher();
-						} else if (result.getItem() == inventory[2].getItem() && inventory[2].stackSize + amount <= this.getInventoryStackLimit()) {
+							resetCrusher();
+						} else if (result.getItem() == inventory[2].getItem() && inventory[2].stackSize + amount <= getInventoryStackLimit()) {
 							inventory[2].stackSize = inventory[2].stackSize + amount;
-							this.resetCrusher();
+							resetCrusher();
 						} 
 					}
 				} else {
 					progress = 0;
-					this.isActive = false;
+					isActive = false;
 				}
 			} else {
 				progress = 0;
-				this.isActive = false;
+				isActive = false;
 			}
 			
-			textureUpdateCounter++;
-			if (this.worldObj.isRemote) {
-
+			if (isActive){
+				textureUpdateCounter++;
+				if (textureUpdateCounter >= ticksPerTextureUpdate) {
+					currentActiveTexture++;
+					if (currentActiveTexture > textures) {
+						currentActiveTexture = 1;
+					}
+					worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, currentActiveTexture, 2);
+					textureUpdateCounter = 0;
+				}
+			} else if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) != 0) {
+				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
 			}
-			if (textureUpdateCounter >= (ticksPerTextureUpdate * textures - 1)) {
-				textureUpdateCounter = 0;
-			}
-		} else { this.checkForMultiblock(); }
+		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
+		storage.writeToNBT(nbt);
 		nbt.setInteger("power", this.power);
 		nbt.setInteger("progress", this.progress);
-		nbt.setByte("direction", this.direction);
-		
-		if (this.isMultiblock) {
-			nbt.setBoolean("multiblock", true);
-			nbt.setBoolean("master", this.isMaster);
-			if (!this.isMaster) {
-				nbt.setInteger("masterX", this.masterX);
-				nbt.setInteger("masterY", this.masterY);
-				nbt.setInteger("masterZ", this.masterZ);
-			}
-		}
+		nbt.setInteger("direction", this.direction);
 
 		NBTTagList nbttaglist = new NBTTagList();
 
@@ -144,19 +124,11 @@ public class TileEntityCrusher extends TileEntity implements IInventory, ISidedI
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
+		storage.readFromNBT(nbt);
 		this.power = nbt.getInteger("power");
 		this.progress = nbt.getInteger("progress");
-		this.direction = nbt.getByte("direction");
-
-		if (nbt.hasKey("multiblock")) {
-			this.isMultiblock = nbt.getBoolean("multiblock");
-			this.isMaster = nbt.getBoolean("master");
-			if (!this.isMaster) {
-				this.masterX = nbt.getInteger("masterX");
-				this.masterY = nbt.getInteger("masterY");
-				this.masterZ = nbt.getInteger("masterZ");
-			}
-		}
+		this.direction = nbt.getInteger("direction");
+		this.storage.setEnergyStored(maxPower);
 		
 		NBTTagList nbttaglist = nbt.getTagList("Items", 10);
 		this.inventory = new ItemStack[this.getSizeInventory()];
@@ -171,6 +143,18 @@ public class TileEntityCrusher extends TileEntity implements IInventory, ISidedI
 				this.inventory[b0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}	
+	}
+	
+	@Override
+	public Packet getDescriptionPacket() {
+		NBTTagCompound nbt = new NBTTagCompound();
+		this.writeToNBT(nbt);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 1, nbt);
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+		readFromNBT(packet.func_148857_g());
 	}
 
 	public boolean canCrush (ItemStack item) {
@@ -283,16 +267,12 @@ public class TileEntityCrusher extends TileEntity implements IInventory, ISidedI
 		return this.isActive;
 	}
 	
-	public boolean isMultiblock() {
-		return this.isMultiblock;
-	}
-	
-	public boolean isMaster() {
-		return this.isMaster;
-	}
-	
 	public int getDirection(){
 		return this.direction;
+	}
+	
+	public void setDirection(int direction){
+		this.direction = direction;
 	}
 
 	public int getCrunchProgressScaled(int i) {
@@ -300,7 +280,35 @@ public class TileEntityCrusher extends TileEntity implements IInventory, ISidedI
 	}
 
 	public int getTextureId() {
-		TechniumMod.writeToConsole("get text id");
-		return (this.textureUpdateCounter / ticksPerTextureUpdate);
+		return this.currentActiveTexture;
+	}
+
+	@Override
+	public boolean canConnectEnergy(ForgeDirection from) {
+		return true;
+	}
+
+	@Override
+	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+		return storage.getMaxReceive();
+	}
+
+	@Override
+	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+		return storage.getMaxExtract();
+	}
+
+	@Override
+	public int getEnergyStored(ForgeDirection from) {
+		return storage.getMaxEnergyStored();
+	}
+
+	@Override
+	public int getMaxEnergyStored(ForgeDirection from) {
+		return storage.getEnergyStored();
+	}
+
+	public int getPowerScaled(int i) {
+		return (storage.getEnergyStored() * i) / storage.getMaxEnergyStored();
 	}
 }

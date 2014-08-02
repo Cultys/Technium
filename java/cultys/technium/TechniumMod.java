@@ -32,7 +32,7 @@ public class TechniumMod
     @Instance(MODID)
     public static TechniumMod instance;
     
-    @SidedProxy(clientSide="net.cultys.technium.network.ClientProxy", serverSide="net.cultys.technium.network.CommonProxy")
+    @SidedProxy(clientSide="cultys.technium.network.ClientProxy", serverSide="cultys.technium.network.CommonProxy")
     public static CommonProxy proxy;
     
     public static CreativeTabs techniumTabs = new CreativeTabs("tabTechnium") {

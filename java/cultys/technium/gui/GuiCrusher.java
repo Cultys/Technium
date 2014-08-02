@@ -35,7 +35,10 @@ public class GuiCrusher extends GuiContainer {
 		drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
 
 		int update = tileCrusher.getCrunchProgressScaled(24);
-		drawTexturedModalRect(j+67, k+35, 176, 14, update, 16);
+		drawTexturedModalRect(j+68, k+35, 176, 14, update, 16);
+		
+		update = tileCrusher.getPowerScaled(61);
+		drawTexturedModalRect(j+7, k+7, 176, 30, 7, update);
 	}
 
 }
