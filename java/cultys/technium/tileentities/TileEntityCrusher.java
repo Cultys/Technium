@@ -1,7 +1,5 @@
 package cultys.technium.tileentities;
 
-import cultys.technium.TechniumMod;
-import cultys.technium.recipes.RecipeHandlerCrusher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -9,7 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import cultys.technium.TechniumMod;
+import cultys.technium.recipes.RecipeHandlerCrusher;
 
 public class TileEntityCrusher extends TileEntity implements IInventory, ISidedInventory {
 
@@ -24,8 +23,6 @@ public class TileEntityCrusher extends TileEntity implements IInventory, ISidedI
 	private int masterY = 0;
 	private int masterZ = 0;
 	private byte direction; //0 north, 1 east, 2 south, 3 west
-	
-	private boolean requiresMetadataUpdate = true;
 
 	@SuppressWarnings("unused")
 	private static final int maxPower = 2000;
@@ -44,8 +41,6 @@ public class TileEntityCrusher extends TileEntity implements IInventory, ISidedI
 		slave.masterX = master.xCoord;
 		slave.masterY = master.yCoord;
 		slave.masterZ = master.zCoord;
-		master.requiresMetadataUpdate = true;
-		slave.requiresMetadataUpdate = true;
 	}
 	
 	private void checkForMultiblock (){
