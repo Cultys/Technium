@@ -1,0 +1,16 @@
+[
+{
+  "modid": "${modid}",
+  "name": "Technium",
+  "description": "Technium adds a whole new world of technology to explore!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Cultys"],
+  "credits": "The Forge and FML guys",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

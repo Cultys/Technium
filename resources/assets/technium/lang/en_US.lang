@@ -1,0 +1,25 @@
+tile.technium_blockCopperOre.name=Copper Ore
+tile.technium_blockTinOre.name=Tin Ore
+tile.technium_blockLeadOre.name=Lead Ore
+tile.technium_blockSilverOre.name=Silver Ore
+tile.technium_blockWolframiteOre.name=Wolframite Ore
+
+item.technium_itemTechnium.stage1.name=Small Technium Crystals
+item.technium_itemTechnium.stage2.name=Medium Technium Crystals
+item.technium_itemTechnium.stage3.name=Large Technium Crystals
+item.technium_itemTechnium.stage4.name=Huge Technium Crystals
+item.technium_itemTechniumShard.name=Technium Shard
+
+item.technium_itemDust.dustCopper.name=Copper Dust
+item.technium_itemDust.dustTin.name=Tin Dust
+item.technium_itemDust.dustSilver.name=Silver Dust
+item.technium_itemDust.dustLead.name=Lead Dust
+item.technium_itemDust.dustWolframite.name=Wolframite Dust
+item.technium_itemDust.dustIron.name=Gold Dust
+item.technium_itemDust.dustGold.name=Iron Dust
+
+item.technium_itemIngot.ingotCopper.name=Copper Ingot
+item.technium_itemIngot.ingotTin.name=Tin Ingot
+item.technium_itemIngot.ingotSilver.name=Silver Ingot
+item.technium_itemIngot.ingotLead.name=Lead Ingot
+item.technium_itemIngot.ingotTungsten.name=Tungsten Ingot
