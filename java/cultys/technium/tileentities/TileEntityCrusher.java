@@ -14,6 +14,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cultys.technium.TechniumMod;
+import cultys.technium.init.TechniumItems;
 import cultys.technium.recipes.RecipeHandlerCrusher;
 
 public class TileEntityCrusher extends TileEntity implements IInventory, ISidedInventory, IEnergyHandler {
@@ -55,21 +56,41 @@ public class TileEntityCrusher extends TileEntity implements IInventory, ISidedI
 				if (result != null) {
 					isActive = true;
 					progress++;
+					
 					if (this.progress >= ticksPerItem) {
 						int amount = result.stackSize;
 						if (inventory[1] == null) {
 							inventory[1] = result.copy();
+							if (inventory[0].getItem() == TechniumItems.itemTechniumShard) {
+								inventory[1].setTagCompound(inventory[0].getTagCompound());
+							}
 							resetCrusher();
-						} else if (result.getItem() == inventory[1].getItem() && inventory[1].stackSize + amount <= getInventoryStackLimit()) {
-							inventory[1].stackSize = inventory[1].stackSize + amount;
-							resetCrusher();
+						} else if (inventory[0].getItem() != TechniumItems.itemTechniumShard) {
+							if (result.getItem() == inventory[1].getItem() && inventory[1].stackSize + amount <= getInventoryStackLimit()) {
+								inventory[1].stackSize = inventory[1].stackSize + amount;
+								resetCrusher();
+							}
 						} else if (inventory[2] == null) {
 							inventory[2] = result.copy();
+							if (inventory[0].getItem() == TechniumItems.itemTechniumShard) {
+								inventory[2].setTagCompound(inventory[0].getTagCompound());
+							}
 							resetCrusher();
-						} else if (result.getItem() == inventory[2].getItem() && inventory[2].stackSize + amount <= getInventoryStackLimit()) {
-							inventory[2].stackSize = inventory[2].stackSize + amount;
-							resetCrusher();
-						} 
+						} else if (inventory[0].getItem() != TechniumItems.itemTechniumShard) {
+							if (result.getItem() == inventory[2].getItem() && inventory[2].stackSize + amount <= getInventoryStackLimit()) {
+								inventory[2].stackSize = inventory[2].stackSize + amount;
+								resetCrusher();
+							}
+						} else if (inventory[0].getItem() == TechniumItems.itemTechniumShard) {
+							if (result.getItem() == inventory[1].getItem() && inventory[1].stackSize + amount <= getInventoryStackLimit() && inventory[1].getTagCompound() == inventory[0].getTagCompound()) {
+								inventory[1].stackSize = inventory[1].stackSize + amount;
+								resetCrusher();
+							}
+							if (result.getItem() == inventory[2].getItem() && inventory[2].stackSize + amount <= getInventoryStackLimit() && inventory[2].getTagCompound() == inventory[0].getTagCompound()) {
+								inventory[2].stackSize = inventory[2].stackSize + amount;
+								resetCrusher();
+							}
+						}
 					}
 				} else {
 					progress = 0;

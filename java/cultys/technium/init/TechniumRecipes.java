@@ -10,6 +10,9 @@ import cultys.technium.recipes.RecipeHandlerCrusher;
 public class TechniumRecipes {
 
 	public static void init () {
+		/* TECHNIUM PROCESSING */
+		RecipeHandlerCrusher.getInstance().addRecipe(new ItemStack(TechniumItems.itemTechniumShard, 1, 0), new ItemStack(TechniumItems.itemTechniumDust, 1, 0));
+		
 		/* ORE TO DUST */
 		for (ItemStack item : OreDictionary.getOres("oreCopper")) {
 			RecipeHandlerCrusher.getInstance().addRecipe(item.copy(), new ItemStack(TechniumItems.itemDust, 2, 0));

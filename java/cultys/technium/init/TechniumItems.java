@@ -8,6 +8,7 @@ import cultys.technium.TechniumMod;
 import cultys.technium.items.ItemDust;
 import cultys.technium.items.ItemIngot;
 import cultys.technium.items.ItemTechnium;
+import cultys.technium.items.ItemTechniumDust;
 import cultys.technium.items.ItemTechniumShard;
 
 
@@ -17,17 +18,20 @@ public class TechniumItems {
 	public static Item itemTechniumShard;
 	public static Item itemDust;
 	public static Item itemIngot;
+	public static Item itemTechniumDust;
 	
 	public static void init(){
 		itemTechnium = new ItemTechnium();
 		itemTechniumShard = new ItemTechniumShard();
 		itemDust = new ItemDust();
 		itemIngot = new ItemIngot();
+		itemTechniumDust = new ItemTechniumDust();
 		
 		GameRegistry.registerItem(itemTechnium, "itemTechnium");
 		GameRegistry.registerItem(itemTechniumShard, "itemTechniumShard");
 		GameRegistry.registerItem(itemDust, "itemDust");
 		GameRegistry.registerItem(itemIngot, "itemIngot");
+		GameRegistry.registerItem(itemTechniumDust, "itemTechniumDust");
 		
 		OreDictionary.registerOre("ingotCopper", new ItemStack(itemIngot, 1, 0));
 		OreDictionary.registerOre("ingotTin", new ItemStack(itemIngot, 1, 1));
