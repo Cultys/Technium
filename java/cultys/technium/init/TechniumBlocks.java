@@ -1,10 +1,14 @@
-package cultys.technium.blocks;
+package cultys.technium.init;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cultys.technium.TechniumMod;
+import cultys.technium.blocks.BlockCrusher;
+import cultys.technium.blocks.BlockOre;
+import cultys.technium.blocks.BlockTechnium;
+import cultys.technium.blocks.BlockTechniumSource;
 
 public class TechniumBlocks {
 	

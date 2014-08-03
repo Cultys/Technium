@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import cultys.technium.TechniumMod;
 import cultys.technium.blocks.BlockTechnium;
-import cultys.technium.blocks.TechniumBlocks;
+import cultys.technium.init.TechniumBlocks;
 
 public class ItemTechnium extends Item {
 	

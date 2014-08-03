@@ -18,9 +18,9 @@ import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import cultys.technium.TechniumMod;
-import cultys.technium.TechniumRef;
 import cultys.technium.blocks.BlockTechnium;
-import cultys.technium.blocks.TechniumBlocks;
+import cultys.technium.init.TechniumBlocks;
+import cultys.technium.init.TechniumRef;
 import cultys.technium.network.PacketDispatcher;
 import cultys.technium.network.PacketSpawnTechnium;
 

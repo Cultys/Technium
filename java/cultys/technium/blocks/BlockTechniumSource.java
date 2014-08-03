@@ -1,6 +1,7 @@
 package cultys.technium.blocks;
 
 import cultys.technium.TechniumMod;
+import cultys.technium.init.TechniumBlocks;
 import cultys.technium.tileentities.TileEntityTechniumSource;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

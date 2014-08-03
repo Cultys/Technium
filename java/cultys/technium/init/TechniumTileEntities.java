@@ -1,7 +1,10 @@
-package cultys.technium.tileentities;
+package cultys.technium.init;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cultys.technium.TechniumMod;
+import cultys.technium.tileentities.TileEntityCrusher;
+import cultys.technium.tileentities.TileEntityTechnium;
+import cultys.technium.tileentities.TileEntityTechniumSource;
 
 
 public class TechniumTileEntities {

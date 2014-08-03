@@ -18,7 +18,7 @@ import cultys.technium.tileentities.TileEntityCrusher;
 
 public class BlockCrusher extends BlockContainer {
 
-	protected BlockCrusher(Material material) {
+	public BlockCrusher(Material material) {
 		super(material);
 		String blockName = TechniumMod.MODID + "_" + "blockCrusher";
 
@@ -91,7 +91,7 @@ public class BlockCrusher extends BlockContainer {
 	@Override
 	public IIcon getIcon(int side, int metadata) {
 		if (side == 3) {
-			return icons[0];
+			return icons[2];
 		}
 		
 		if (side == 0 || side == 1) {

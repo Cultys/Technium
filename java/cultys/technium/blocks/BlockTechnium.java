@@ -3,7 +3,7 @@ package cultys.technium.blocks;
 import java.util.Random;
 
 import cultys.technium.TechniumMod;
-import cultys.technium.items.TechniumItems;
+import cultys.technium.init.TechniumItems;
 import cultys.technium.tileentities.TileEntityTechnium;
 import cultys.technium.tileentities.TileEntityTechniumSource;
 import net.minecraft.block.Block;

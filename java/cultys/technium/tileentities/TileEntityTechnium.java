@@ -6,7 +6,7 @@ import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import cultys.technium.TechniumRef;
+import cultys.technium.init.TechniumRef;
 import cultys.technium.network.PacketDispatcher;
 import cultys.technium.network.PacketUpgradeTechnium;
 import net.minecraft.init.Blocks;

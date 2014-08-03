@@ -1,10 +1,9 @@
-package cultys.technium;
+package cultys.technium.init;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import cultys.technium.blocks.TechniumBlocks;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.config.Configuration;
 
@@ -147,9 +146,9 @@ public class TechniumRef {
 		techniumSourceSproutTicks = config.getInt("techniumSproutTicks", "Technium", 2400, 20, 72000, "");
 		techniumSourceSproutChance = config.getFloat("techniumSproutChance", "Technium", 0.25F, 0F, 1.0F, "");
 		techniumSourceSproutAttempts = config.getInt("techniumSproutAttempts", "Technium", 20, 1, 30, "");
-		techniumSourceSproutRadius = config.getInt("techniumSproutRadius", "Technium", 25, 1, 50, "");
+		techniumSourceSproutRadius = config.getInt("techniumSproutRadius", "Technium", 20, 1, 50, "");
 		techniumSourceSproutDY = config.getInt("techniumSproutDY", "Technium", 3, 1, 10, "");
-		techniumSourceSpawnChance = config.getFloat("techniumSourceChance", "Technium", 0.01F, 0F, 1.0F, "");
+		techniumSourceSpawnChance = config.getFloat("techniumSourceChance", "Technium", 0.02F, 0F, 1.0F, "");
 		
 		
 		config.save();

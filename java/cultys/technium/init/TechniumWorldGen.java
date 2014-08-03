@@ -1,4 +1,4 @@
-package cultys.technium;
+package cultys.technium.init;
 
 import java.util.Map.Entry;
 import java.util.Random;
@@ -11,7 +11,6 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import cpw.mods.fml.common.IWorldGenerator;
 import cultys.technium.blocks.BlockTechnium;
 import cultys.technium.blocks.BlockTechniumSource;
-import cultys.technium.blocks.TechniumBlocks;
 
 public class TechniumWorldGen implements IWorldGenerator{
 
