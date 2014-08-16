@@ -35,7 +35,8 @@ public class TileEntityTechnium extends TileEntity {
 	public int xParent;
 	public int yParent;
 	public int zParent;
-	public Map<String, Float> mineralComposition = new HashMap<String, Float>();
+	private Map<String, Float> mineralComposition = new HashMap<String, Float>();
+	private int mineralValue = 0;
 	
 	@SideOnly(Side.CLIENT)
     public double getMaxRenderDistanceSquared()
@@ -82,6 +83,9 @@ public class TileEntityTechnium extends TileEntity {
 	
 	public void writeItemNBT (NBTTagCompound nbt) {
 		nbt.setBoolean("hidden", false);
+		nbt.setInteger("mineralValue", mineralValue);
+		
+		
 		for (Map.Entry<String, Float> entry : mineralComposition.entrySet()){
 			nbt.setFloat(entry.getKey(), entry.getValue());
 		}
@@ -91,10 +95,11 @@ public class TileEntityTechnium extends TileEntity {
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.rotation = nbt.getFloat("rotation");
-		this.xParent = nbt.getInteger("xParent");
-		this.yParent = nbt.getInteger("yParent");
-		this.zParent = nbt.getInteger("zParent");
+		rotation = nbt.getFloat("rotation");
+		xParent = nbt.getInteger("xParent");
+		yParent = nbt.getInteger("yParent");
+		zParent = nbt.getInteger("zParent");
+		mineralValue = nbt.getInteger("mineralValue");
 		
 		for (String entry : OreDictionary.getOreNames()) {
 			if (entry.substring(0, 3).equals("ore")) {
@@ -111,10 +116,11 @@ public class TileEntityTechnium extends TileEntity {
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		nbt.setFloat("rotation", this.rotation);
-		nbt.setInteger("xParent", this.xParent);
-		nbt.setInteger("yParent", this.yParent);
-		nbt.setInteger("zParent", this.zParent);
+		nbt.setFloat("rotation", rotation);
+		nbt.setInteger("xParent", xParent);
+		nbt.setInteger("yParent", yParent);
+		nbt.setInteger("zParent", zParent);
+		nbt.setInteger("mineralValue", mineralValue);
 		
 		for (Map.Entry<String, Float> entry : mineralComposition.entrySet()){
 			nbt.setFloat(entry.getKey(), entry.getValue());
@@ -140,9 +146,11 @@ public class TileEntityTechnium extends TileEntity {
 		
 		TileEntityTechniumSource tileSource = (TileEntityTechniumSource) this.worldObj.getTileEntity(x, y, z);
 		if (tileSource != null) {
-			this.mineralComposition = tileSource.mineralComposition;
+			mineralComposition = tileSource.getMineralComposition();
+			mineralValue = tileSource.getMineralValue();
 		} else {
-			this.mineralComposition = TechniumRef.defaultMineralComposition;
+			mineralComposition = TechniumRef.defaultMineralComposition;
+			mineralValue = TechniumRef.defaultMineralValue;
 		}
 	}
 	
@@ -165,7 +173,7 @@ public class TileEntityTechnium extends TileEntity {
 		if (tileEntity != null) {
 			if (tileEntity instanceof TileEntityTechniumSource) {
 				tileSource = (TileEntityTechniumSource) tileEntity;
-				tileSource.children--;
+				tileSource.removeChild();
 			}
 		}
 		worldObj.setBlock(x, y, z, Blocks.air);

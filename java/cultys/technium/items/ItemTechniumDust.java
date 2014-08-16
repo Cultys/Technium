@@ -37,6 +37,8 @@ public class ItemTechniumDust extends Item {
 	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
 		if (itemStack.stackTagCompound != null) {
 			if (!itemStack.stackTagCompound.getBoolean("hidden")) {
+				list.add(EnumChatFormatting.AQUA + "Mineral value: " + itemStack.stackTagCompound.getInteger("mineralValue"));
+				
 				for (String entry : OreDictionary.getOreNames()) {
 					if (entry.substring(0, 3).equals("ore")) {
 						if (itemStack.stackTagCompound.hasKey(entry)) {

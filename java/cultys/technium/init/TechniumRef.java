@@ -22,7 +22,8 @@ public class TechniumRef {
 	public static float techniumSourceSpawnChance = 0.01F;
 	
 	//Global values for both technium crystal and source blocks.
-	public static final short techniumMaxColoring = 50;
+	public static final short techniumMaxColoring = 100;
+	public static final int defaultMineralValue = 500;
 	
 	//Mineral en color mapping.
 	public static Map<String, Float> defaultMineralComposition = new HashMap<String, Float>();

@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cultys.technium.gui.GuiCrusher;
 import cultys.technium.gui.container.ContainerCrusher;
@@ -38,5 +39,17 @@ public class ClientProxy extends CommonProxy {
 	public void registerRenders(){
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTechnium.class, new RenderTechnium());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTechniumSource.class, new RenderTechniumSource());
+	}
+	
+	@Override
+	public EntityPlayer getPlayer(MessageContext context)
+	{
+		if(FMLCommonHandler.instance().getEffectiveSide().isServer())
+		{
+			return context.getServerHandler().playerEntity;
+		}
+		else {
+			return Minecraft.getMinecraft().thePlayer;
+		}
 	}
 }

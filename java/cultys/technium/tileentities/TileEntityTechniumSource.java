@@ -38,8 +38,9 @@ public class TileEntityTechniumSource extends TileEntity {
 	public float blue;
 	public float rotation = (float) Math.PI * (rng.nextFloat() - rng.nextFloat());
 	
-	public int children = 0;
-	public Map<String, Float> mineralComposition = new HashMap<String, Float>();
+	private int children = 0;
+	private Map<String, Float> mineralComposition = new HashMap<String, Float>();
+	private int mineralValue = 0;
 	
 	@SideOnly(Side.CLIENT)
     public double getMaxRenderDistanceSquared()
@@ -127,8 +128,9 @@ public class TileEntityTechniumSource extends TileEntity {
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		this.rotation = nbt.getFloat("rotation");
-		this.rotation = nbt.getInteger("children");
+		rotation = nbt.getFloat("rotation");
+		children = nbt.getInteger("children");
+		mineralValue = nbt.getInteger("mineralValue");
 		
 		for (String entry : OreDictionary.getOreNames()) {
 			if (entry.substring(0, 3).equals("ore")) {
@@ -145,8 +147,9 @@ public class TileEntityTechniumSource extends TileEntity {
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
-		nbt.setFloat("rotation", this.rotation);
-		nbt.setInteger("children", this.children);
+		nbt.setFloat("rotation", rotation);
+		nbt.setInteger("children", children);
+		nbt.setInteger("mineralValue", mineralValue);
 		
 		for (Map.Entry<String, Float> entry : mineralComposition.entrySet()){
 		    nbt.setFloat(entry.getKey(), entry.getValue());
@@ -190,6 +193,7 @@ public class TileEntityTechniumSource extends TileEntity {
 								} else {
 									mineralComposition.put(key,  1F);
 								}
+								mineralValue++;
 							}
 						}
 					}
@@ -204,5 +208,18 @@ public class TileEntityTechniumSource extends TileEntity {
 		for (Map.Entry<String, Float> entry : this.mineralComposition.entrySet()){
 		    TechniumMod.writeToConsole(entry.getKey() + ": " + Math.round(entry.getValue()*100) + "%");
 		}
+	}
+
+	public Map<String, Float> getMineralComposition() {
+		return mineralComposition;
+	}
+
+	public void removeChild() {
+		children--;
+		
+	}
+
+	public int getMineralValue() {
+		return mineralValue;
 	}
 }

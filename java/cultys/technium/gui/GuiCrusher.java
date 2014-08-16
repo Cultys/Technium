@@ -1,44 +1,50 @@
 package cultys.technium.gui;
 
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import cultys.technium.TechniumMod;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import cultys.technium.tileentities.TileEntityCrusher;
+import cultys.technium.tileentities.TileEntityMachineBase;
 
-public class GuiCrusher extends GuiContainer {
+@SideOnly(Side.CLIENT)
+public class GuiCrusher extends GuiMachineBase {
 
-	private TileEntityCrusher tileCrusher;
-	private static final ResourceLocation guiTexture = new ResourceLocation(TechniumMod.MODID + ":" + "textures/gui/technium_guiCrusher.png");
+	private TileEntityMachineBase tileMachine;
+	private ResourceLocation resource;
 	
-	public GuiCrusher(Container inventory, TileEntityCrusher tileCrusher) {
+	public GuiCrusher(Container inventory, TileEntityMachineBase tileEntity) {
 		super(inventory);
-		this.tileCrusher = tileCrusher;
+		tileMachine = tileEntity;
+		resource = tileEntity.getGuiTexture();
+		elements.add(new GuiEnergyDisplay(tileEntity, this, resource));
+		
 	}
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int par1, int par2)
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
 		mc.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, (ySize - 96) + 2, 0xffffff);
 	}
 	
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(guiTexture);
-		int j = (width - xSize) / 2;
-		int k = (height - ySize) / 2;
-		drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
-
-		int update = tileCrusher.getCrunchProgressScaled(24);
-		drawTexturedModalRect(j+68, k+35, 176, 14, update, 16);
+	protected void drawGuiContainerBackgroundLayer(float partialTick, int mouseX, int mouseY) {
 		
-		update = tileCrusher.getPowerScaled(61);
-		drawTexturedModalRect(j+7, k+7, 176, 30, 7, update);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		mc.renderEngine.bindTexture(resource);
+		
+		int startX = (width - xSize) / 2;
+		int startY = (height - ySize) / 2;
+		
+		drawTexturedModalRect(startX, startY, 0, 0, xSize, ySize);
+		
+		int update = ((TileEntityCrusher) tileMachine).getCrunchProgressScaled(24);
+		drawTexturedModalRect(startX+68, startY+35, 176, 14, update, 16);
+		
+		super.drawGuiContainerBackgroundLayer(partialTick, mouseX, mouseY);
 	}
-
 }

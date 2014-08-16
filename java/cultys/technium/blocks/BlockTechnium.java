@@ -166,7 +166,7 @@ public class BlockTechnium extends BlockContainer {
 		if (tileEntity != null) {
 			if (tileEntity instanceof TileEntityTechniumSource) {
 				tileSource = (TileEntityTechniumSource) tileEntity;
-				tileSource.children--;
+				tileSource.removeChild();;
 			}
 		}
 	}

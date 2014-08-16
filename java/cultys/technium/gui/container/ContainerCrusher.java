@@ -1,74 +1,23 @@
 package cultys.technium.gui.container;
 
-import java.util.Iterator;
-
-import cultys.technium.recipes.RecipeHandlerCrusher;
-import cultys.technium.tileentities.TileEntityCrusher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import cultys.technium.recipes.RecipeHandlerCrusher;
+import cultys.technium.tileentities.TileEntityMachineBase;
 
-public class ContainerCrusher extends Container {
+public class ContainerCrusher extends ContainerMachineBase {
 
-	private TileEntityCrusher tileCrusher;
-	private int crusherTime;
-	
-	public ContainerCrusher(InventoryPlayer playerInventory, TileEntityCrusher tileCrusher) {
+	public ContainerCrusher(InventoryPlayer playerInventory, TileEntityMachineBase tileEntity) {
 		
-		this.tileCrusher = tileCrusher;
-		this.crusherTime = 0;
+		super(playerInventory, tileEntity);
 		
-		addSlotToContainer(new Slot(tileCrusher, 0, 44, 35));
-		addSlotToContainer(new SlotResult(tileCrusher, 1, 101,35));
-		addSlotToContainer(new SlotResult(tileCrusher, 2, 119,35));
-		
-		for (int i = 0; i < 3; i++)
-		 {
-			 for (int k = 0; k < 9; k++)
-			 {
-				 addSlotToContainer(new Slot(playerInventory, k + i * 9 + 9, 8 + k * 18, 84 + i * 18));
-			 }
-		 }
-
-		 for (int j = 0; j < 9; j++)
-		 {
-			 addSlotToContainer(new Slot(playerInventory, j, 8 + j * 18, 142));
-		 }
+		addSlotToContainer(new Slot(tileEntity, 0, 44, 35));
+		addSlotToContainer(new SlotResult(tileEntity, 1, 101,35));
+		addSlotToContainer(new SlotResult(tileEntity, 2, 119,35));
 	}
 		
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-		return this.tileCrusher.isUseableByPlayer(player);
-	}
-	
-	@SuppressWarnings("rawtypes")
-	public void detectAndSendChanges()
-	{
-		 super.detectAndSendChanges();
-		 Iterator var1 = this.crafters.iterator();
-		 while (var1.hasNext())
-		 {
-			 ICrafting var2 = (ICrafting)var1.next();
-			 if (this.crusherTime != this.tileCrusher.progress)
-			 {
-				 var2.sendProgressBarUpdate(this, 0, this.tileCrusher.progress);
-			 }
-		 }
-		 
-		 this.crusherTime = this.tileCrusher.progress;
-	}
-
-	public void updateProgressBar(int par1, int par2)
-	{
-		 if (par1 == 0)
-		 {
-			 this.tileCrusher.progress = par2;
-		 }
-	}
-	
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotnumber){
 		 ItemStack itemstack = null;
@@ -86,7 +35,7 @@ public class ContainerCrusher extends Container {
 					 return null;
 				 }
 
-				 //slot.onSlotChange(itemstack1, itemstack);
+				 slot.onSlotChange(itemstack1, itemstack);
 			 }
 			 else if (slotnumber == 0)
 			 {

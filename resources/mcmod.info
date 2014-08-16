@@ -1,16 +1,17 @@
 [
 {
-  "modid": "${modid}",
+  "modid": "technium",
   "name": "Technium",
   "description": "Technium adds a whole new world of technology to explore!",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
+  "version": "1.0",
+  "mcversion": "1.7.10",
   "url": "",
   "updateUrl": "",
   "authorList": ["Cultys"],
-  "credits": "The Forge and FML guys",
+  "credits": "The Forge and FML guys, Team CoFH",
   "logoFile": "",
   "screenshots": [],
+  "parent": "",
   "dependencies": []
 }
 ]
