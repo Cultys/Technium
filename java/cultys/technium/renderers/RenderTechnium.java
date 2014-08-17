@@ -10,18 +10,20 @@ import cultys.technium.TechniumMod;
 import cultys.technium.models.ModelTechnium;
 import cultys.technium.tileentities.TileEntityTechnium;
 
-public class RenderTechnium extends TileEntitySpecialRenderer {
-	
-	ResourceLocation texture = new ResourceLocation(TechniumMod.MODID + ":" + "textures/technium_modelTechnium.png");
+public class RenderTechnium extends TileEntitySpecialRenderer 
+{
+	public static final ResourceLocation texture = new ResourceLocation(TechniumMod.MODID + ":" + "textures/technium_modelTechnium.png");
 
 	private ModelTechnium model;
 	
-	public RenderTechnium() {
+	public RenderTechnium() 
+	{
 		this.model = new ModelTechnium();
 	}
 	
 	@Override
-	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float f) {
+	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float f) 
+	{
 		TileEntityTechnium entity = (TileEntityTechnium) te;
 		this.model.setRotationAngles(entity.rotation);
 		

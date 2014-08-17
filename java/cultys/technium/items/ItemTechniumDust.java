@@ -27,14 +27,16 @@ public class ItemTechniumDust extends Item {
 	}
 	
 	@Override
-	public void onCreated(ItemStack itemStack, World worldObj, EntityPlayer entityPlayer) {
+	public void onCreated(ItemStack itemStack, World worldObj, EntityPlayer entityPlayer) 
+	{
 		itemStack.stackTagCompound = new NBTTagCompound();
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
+	public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) 
+	{
 		if (itemStack.stackTagCompound != null) {
 			if (!itemStack.stackTagCompound.getBoolean("hidden")) {
 				list.add(EnumChatFormatting.AQUA + "Mineral value: " + itemStack.stackTagCompound.getInteger("mineralValue"));

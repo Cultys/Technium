@@ -1,5 +1,7 @@
 package cultys.technium.blocks;
 
+import coloredlightscore.src.api.CLApi;
+import cpw.mods.fml.common.Loader;
 import cultys.technium.TechniumMod;
 import cultys.technium.init.TechniumBlocks;
 import cultys.technium.tileentities.TileEntityTechniumSource;
@@ -17,7 +19,13 @@ public class BlockTechniumSource extends BlockContainer {
 		this.setBlockName(blockName);
 		this.setCreativeTab(TechniumMod.techniumTabs);
 		this.setBlockTextureName(TechniumMod.MODID  + ":" + blockName);
-		this.setLightLevel(0.3F);
+		
+		if (Loader.isModLoaded("coloredlightscore")) {
+			CLApi.setBlockColorRGB(this, 0.1F, 0.3F, 0.1F);
+		} else {
+			this.setLightLevel(0.3F);
+		}
+		
 		this.setBlockBounds(0.1F, 0.0F, 0.1F, 0.9F, 1F, 0.9F);
 	}
 	

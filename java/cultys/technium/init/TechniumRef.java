@@ -20,6 +20,7 @@ public class TechniumRef {
 	public static int techniumSourceSproutRadius = 25;
 	public static int techniumSourceSproutDY = 3;
 	public static float techniumSourceSpawnChance = 0.01F;
+	public static float techniumCorruptChance = 0.5F;
 	
 	//Global values for both technium crystal and source blocks.
 	public static final short techniumMaxColoring = 100;

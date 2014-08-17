@@ -6,6 +6,7 @@ import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cultys.technium.TechniumUtils;
 import cultys.technium.init.TechniumRef;
 import cultys.technium.network.PacketDispatcher;
 import cultys.technium.network.PacketUpgradeTechnium;
@@ -49,10 +50,14 @@ public class TileEntityTechnium extends TileEntity {
 		ticks++;
 		
 		if (ticks > TechniumRef.techniumGrowTicks) {
-			if (!this.worldObj.isRemote){
-				if (rng.nextFloat() <= TechniumRef.techniumGrowChance && this.getStage() < 3) {
-					PacketDispatcher.sendToDimension(new PacketUpgradeTechnium(this.xCoord, this.yCoord, this.zCoord), worldObj.provider.dimensionId);
-					this.setStage(this.getStage() + 1);
+			if (!worldObj.isRemote){
+				if (rng.nextFloat() <= TechniumRef.techniumGrowChance && getStage() < 3) {
+					PacketDispatcher.sendToDimension(new PacketUpgradeTechnium(xCoord, yCoord, zCoord), worldObj.provider.dimensionId);
+					setStage(getStage() + 1);
+				}
+				
+				if (rng.nextFloat() <= TechniumRef.techniumCorruptChance) {
+					TechniumUtils.corruptBlockAt(worldObj, xCoord, yCoord-1, zCoord);
 				}
 			}
 			ticks = 0;
@@ -104,7 +109,7 @@ public class TileEntityTechnium extends TileEntity {
 		for (String entry : OreDictionary.getOreNames()) {
 			if (entry.substring(0, 3).equals("ore")) {
 				if (nbt.hasKey(entry)) {
-					this.mineralComposition.put(entry, nbt.getFloat(entry));
+					mineralComposition.put(entry, nbt.getFloat(entry));
 				}
 			}
 		}
@@ -155,7 +160,7 @@ public class TileEntityTechnium extends TileEntity {
 	}
 	
 	public void setStage(int stage) {
-		this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, stage, 3);
+		this.worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, stage, 3);
 	}
 	
 	public int getStage() {
@@ -163,13 +168,13 @@ public class TileEntityTechnium extends TileEntity {
 	}
 
 	public void shatter(World worldObj) {
-		this.removeTechnium(worldObj, this.xCoord, this.yCoord, this.zCoord);
-		worldObj.playSoundEffect(this.xCoord + 0.5D, this.yCoord + 0.5D, this.zCoord + 0.5D, "dig.glass", 1.0F, 0.7F + 0.1F * (rng.nextFloat() - rng.nextFloat()));
+		this.removeTechnium(worldObj, xCoord, yCoord, zCoord);
+		worldObj.playSoundEffect(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D, "dig.glass", 1.0F, 0.7F + 0.1F * (rng.nextFloat() - rng.nextFloat()));
 	}
 	
 	public void removeTechnium (World worldObj, int x, int y, int z) {
 		TileEntityTechniumSource tileSource;
-		TileEntity tileEntity = worldObj.getTileEntity(this.xParent, this.yParent, this.zParent);
+		TileEntity tileEntity = worldObj.getTileEntity(xParent, yParent, zParent);
 		if (tileEntity != null) {
 			if (tileEntity instanceof TileEntityTechniumSource) {
 				tileSource = (TileEntityTechniumSource) tileEntity;

@@ -6,6 +6,9 @@ tile.technium_blockLeadOre.name=Lead Ore
 tile.technium_blockSilverOre.name=Silver Ore
 tile.technium_blockWolframiteOre.name=Wolframite Ore
 tile.technium_blockCrusher.name=Crusher
+tile.technium_blockTaintedDirt.name=Technium Tainted Dirt
+tile.technium_blockTaintedSand.name=Technium Tainted Sand
+tile.technium_blockTaintedStone.name=Technium Tainted Stone
 
 item.technium_itemTechnium.stage1.name=Small Technium Crystals
 item.technium_itemTechnium.stage2.name=Medium Technium Crystals
@@ -27,3 +30,5 @@ item.technium_itemIngot.ingotTin.name=Tin Ingot
 item.technium_itemIngot.ingotSilver.name=Silver Ingot
 item.technium_itemIngot.ingotLead.name=Lead Ingot
 item.technium_itemIngot.ingotTungsten.name=Tungsten Ingot
+
+item.technium_itemMiningLaser.miningLaser.name=Mining Laser

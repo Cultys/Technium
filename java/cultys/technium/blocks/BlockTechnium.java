@@ -2,7 +2,10 @@ package cultys.technium.blocks;
 
 import java.util.Random;
 
+import coloredlightscore.src.api.CLApi;
+import cpw.mods.fml.common.Loader;
 import cultys.technium.TechniumMod;
+import cultys.technium.init.TechniumBlocks;
 import cultys.technium.init.TechniumItems;
 import cultys.technium.tileentities.TileEntityTechnium;
 import cultys.technium.tileentities.TileEntityTechniumSource;
@@ -27,7 +30,13 @@ public class BlockTechnium extends BlockContainer {
 		this.setBlockName(blockName);
 		this.setCreativeTab(TechniumMod.techniumTabs);
 		this.setBlockTextureName(TechniumMod.MODID  + ":" + blockName);
-		this.setLightLevel(0.3F);
+		
+		if (Loader.isModLoaded("coloredlightscore")) {
+			CLApi.setBlockColorRGB(this, 0.1F, 0.3F, 0.1F);
+		} else {
+			this.setLightLevel(0.3F);
+		}
+		
 		this.setStepSound(soundTypeGlass);
 	}
 
@@ -84,7 +93,10 @@ public class BlockTechnium extends BlockContainer {
 			block == Blocks.sandstone ||
 			block == Blocks.stone ||
 			block == Blocks.grass ||
-			block == Blocks.sand) {
+			block == Blocks.sand ||
+			block == TechniumBlocks.blockTaintedDirt ||
+			block == TechniumBlocks.blockTaintedSand ||
+			block == TechniumBlocks.blockTaintedStone) {
 
 			return true;
 		}

@@ -7,6 +7,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cultys.technium.TechniumMod;
 import cultys.technium.items.ItemDust;
 import cultys.technium.items.ItemIngot;
+import cultys.technium.items.ItemMiningLaser;
 import cultys.technium.items.ItemTechnium;
 import cultys.technium.items.ItemTechniumDust;
 import cultys.technium.items.ItemTechniumShard;
@@ -14,24 +15,20 @@ import cultys.technium.items.ItemTechniumShard;
 
 public class TechniumItems {
 	
-	public static Item itemTechnium;
-	public static Item itemTechniumShard;
-	public static Item itemDust;
-	public static Item itemIngot;
-	public static Item itemTechniumDust;
+	public static final Item itemTechnium = new ItemTechnium();
+	public static final Item itemTechniumShard = new ItemTechniumShard();
+	public static final Item itemDust = new ItemDust();
+	public static final Item itemIngot = new ItemIngot();
+	public static final Item itemTechniumDust = new ItemTechniumDust();
+	public static final Item itemMiningLaser = new ItemMiningLaser().setFull3D();
 	
 	public static void init(){
-		itemTechnium = new ItemTechnium();
-		itemTechniumShard = new ItemTechniumShard();
-		itemDust = new ItemDust();
-		itemIngot = new ItemIngot();
-		itemTechniumDust = new ItemTechniumDust();
-		
 		GameRegistry.registerItem(itemTechnium, "itemTechnium");
 		GameRegistry.registerItem(itemTechniumShard, "itemTechniumShard");
 		GameRegistry.registerItem(itemDust, "itemDust");
 		GameRegistry.registerItem(itemIngot, "itemIngot");
 		GameRegistry.registerItem(itemTechniumDust, "itemTechniumDust");
+		GameRegistry.registerItem(itemMiningLaser, "itemMiningLaser");
 		
 		OreDictionary.registerOre("ingotCopper", new ItemStack(itemIngot, 1, 0));
 		OreDictionary.registerOre("ingotTin", new ItemStack(itemIngot, 1, 1));

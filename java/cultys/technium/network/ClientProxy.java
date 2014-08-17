@@ -4,11 +4,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.MinecraftForgeClient;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cultys.technium.gui.GuiCrusher;
 import cultys.technium.gui.container.ContainerCrusher;
+import cultys.technium.init.TechniumItems;
+import cultys.technium.renderers.RenderMiningLaser;
 import cultys.technium.renderers.RenderTechnium;
 import cultys.technium.renderers.RenderTechniumSource;
 import cultys.technium.tileentities.TileEntityCrusher;
@@ -39,6 +43,8 @@ public class ClientProxy extends CommonProxy {
 	public void registerRenders(){
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTechnium.class, new RenderTechnium());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTechniumSource.class, new RenderTechniumSource());
+		
+		MinecraftForgeClient.registerItemRenderer(TechniumItems.itemMiningLaser, (IItemRenderer)new RenderMiningLaser());
 	}
 	
 	@Override
