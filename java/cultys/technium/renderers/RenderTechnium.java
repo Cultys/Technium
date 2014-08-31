@@ -6,10 +6,13 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import cultys.technium.TechniumMod;
 import cultys.technium.models.ModelTechnium;
 import cultys.technium.tileentities.TileEntityTechnium;
 
+@SideOnly(Side.CLIENT)
 public class RenderTechnium extends TileEntitySpecialRenderer 
 {
 	public static final ResourceLocation texture = new ResourceLocation(TechniumMod.MODID + ":" + "textures/technium_modelTechnium.png");

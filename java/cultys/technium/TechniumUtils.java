@@ -22,4 +22,8 @@ public class TechniumUtils {
 		}
 	}
 	
+	public static double deg2Rad (double degrees)
+	{
+		return (degrees / 180) * Math.PI;
+	}
 }

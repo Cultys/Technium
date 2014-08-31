@@ -15,6 +15,7 @@ public class PacketDispatcher {
 	public static final void registerPackets() {
 	    dispatcher.registerMessage(PacketSpawnTechnium.Handler.class, PacketSpawnTechnium.class, 0, Side.CLIENT);
 	    dispatcher.registerMessage(PacketUpgradeTechnium.Handler.class, PacketUpgradeTechnium.class, 1, Side.CLIENT);
+	    dispatcher.registerMessage(PacketMiningLaserData.Handler.class, PacketMiningLaserData.class, 2, Side.SERVER);
 	}
 
 	/**
